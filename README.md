@@ -1,101 +1,114 @@
-# System Call Sequence Classification for Intrusion Detection
+# 🔐 Multi-Class Intrusion Detection System using System Call Sequences
 
-This project focuses on classifying system call sequences to detect intrusions using various machine learning and deep learning models. The dataset used is the **ADFA-LD dataset**, which contains system call sequences for normal and attack scenarios.
-
-## Table of Contents
-- [Overview](#overview)
-- [Dataset](#dataset)
-- [Preprocessing](#preprocessing)
-- [Models Implemented](#models-implemented)
-- [Results](#results)
-- [Dependencies](#dependencies)
-- [Usage](#usage)
+A deep learning-based **multi-class Intrusion Detection System (IDS)** that classifies system call sequences into normal or one of multiple attack types using models like **LSTM**, **GRU**, and **Transformer Encoders**. Built using the **ADFA-LD** dataset, the project implements comprehensive preprocessing, feature extraction, and data augmentation techniques.
 
 ---
 
-## Overview
-The goal of this project is to classify system call sequences into normal or attack categories. The project explores multiple models, including traditional machine learning models like SVM and Random Forest, as well as deep learning models like ANN, LSTM, GRU, and Transformer-based encoders.
+## 📁 Table of Contents
+
+- [🔍 Overview](#-overview)
+- [📊 Dataset](#-dataset)
+- [🧹 Preprocessing](#-preprocessing)
+- [🧠 Models Implemented](#-models-implemented)
+- [📈 Results](#-results)
+- [⚙️ Dependencies](#-dependencies)
+- [▶️ Usage](#-usage)
+- [🙌 Acknowledgments](#-acknowledgments)
 
 ---
 
-## Dataset
-The **ADFA-LD dataset** is used in this project. It contains:
-- **Normal sequences**: Representing benign system call sequences.
-- **Attack sequences**: Representing various types of intrusions.
+## 🔍 Overview
 
-The dataset is downloaded and extracted programmatically within the notebook.
+This project builds an intrusion detection system using **system call sequences** to detect and classify **malicious behavior** in real-time application processes. The model is trained to recognize both **normal** and **multiple attack** patterns using deep learning.
 
----
-
-## Preprocessing
-1. **Data Extraction**:
-   - System call sequences are read from text files.
-   - Attack types are mapped to unique labels.
-
-2. **Data Augmentation**:
-   - Attack sequences are augmented by appending/prepending harmless system calls to balance the dataset.
-
-3. **Feature Engineering**:
-   - **Word2Vec** embeddings are generated for system call sequences.
-   - Bigram and trigram transformations are applied to capture contextual information.
-
-4. **Train-Test Split**:
-   - The dataset is split into training (80%) and testing (20%) sets.
+📌 **Core Features:**
+- Multi-class classification of system calls
+- Handles **imbalanced data** with oversampling and augmentation
+- Sequence-based modeling with **LSTM**, **GRU**, and **Transformer**
+- Supports **word embeddings** and **n-gram** feature extraction
 
 ---
 
-## Models Implemented
-### 1. **Support Vector Machine (SVM)**
-- Kernel: RBF
-- Hyperparameters: `C=1`, `gamma=5`
-- Used Word2Vec embeddings as input features.
+## 📊 Dataset
 
-### 2. **Random Forest**
-- Number of estimators: 100
-- Used Word2Vec embeddings as input features.
+We use the **ADFA-LD** (Australian Defence Force Academy Linux Dataset), which includes system call traces for both **normal activities** and **six distinct types of attacks**.
 
-### 3. **Artificial Neural Network (ANN)**
-- Fully connected layers with ReLU activation.
-- Output layer with softmax activation for multi-class classification.
+📦 **Dataset Details:**
+- 📁 File: `system_calls_with_labels.csv`
+- 📌 Columns:
+  - `System_Calls`: List of system calls (e.g., `[240, 311, 78, 240, ...]`)
+  - `Label`: `0` = Normal, `1-6` = Attack types
+  - `Attack Type`: Name of the specific attack
 
-### 4. **LSTM**
-- Bidirectional LSTM layers with dropout and layer normalization.
-- Used sequence embeddings as input.
+🛡️ **Attack Types:**
+| Label | Attack Type       |
+|-------|-------------------|
+| 0     | Normal            |
+| 1     | Adduser           |
+| 2     | Hydra FTP         |
+| 3     | Hydra SSH         |
+| 4     | Java Meterpreter  |
+| 5     | Meterpreter       |
+| 6     | Web Shell         |
 
-### 5. **GRU**
-- Bidirectional GRU layers with dropout and layer normalization.
-- Used sequence embeddings as input.
-
-### 6. **Transformer Encoder**
-- Multi-head attention mechanism.
-- Feed-forward layers with dropout and layer normalization.
+📎 **Download Source**: [ADFA-LD Dataset](https://research.unsw.edu.au/projects/adfa-ids-datasets)
 
 ---
 
-## Results
-### Metrics Evaluated:
-- **Accuracy**
-- **Classification Report** (Precision, Recall, F1-Score)
-- **Confusion Matrix**
+## 🧹 Preprocessing
 
-Each model's performance is evaluated on the test set and visualized using confusion matrices.
+The dataset undergoes several transformation steps:
+
+1. **Parsing**: System calls in string format are converted into numerical lists.
+2. **Tokenization**: Sequences are encoded for model input.
+3. **Padding**: Ensures all sequences are of uniform length.
+4. **Augmentation**:
+   - Oversampling attack instances
+   - Adding benign sequences to augment minority classes
+5. **Splitting**:
+   - 80% Training
+   - 20% Testing
+   - A portion of attacks is set aside for validation
+
+---
+
+## 🧠 Models Implemented
+
+| Model               | Description |
+|--------------------|-------------|
+| 🤖 **Support Vector Machine (SVM)** | RBF kernel, `C=1`, `gamma=5`, with Word2Vec features |
+| 🌲 **Random Forest**               | 100 estimators, uses Word2Vec embeddings |
+| 🔗 **Artificial Neural Network (ANN)** | Fully connected layers, Softmax output |
+| 🔄 **LSTM (Bi-directional)**        | LayerNorm + Dropout, ideal for long sequences |
+| 🔁 **GRU (Bi-directional)**         | Similar to LSTM, faster training |
+| ✨ **Transformer Encoder**          | Multi-head attention, sequence embeddings |
+
+📌 **Feature Engineering:**
+- **Word2Vec** embeddings for system calls
+- **n-gram** (bigram, trigram) generation for contextual modeling
 
 ---
 
-## Dependencies
-The following libraries are required to run the notebook:
-- Python 3.8+
-- NumPy
-- Pandas
-- Gensim
-- Scikit-learn
-- TensorFlow
-- Matplotlib
-- Seaborn
+## 📈 Results
 
+📊 **Evaluation Metrics:**
+- Accuracy
+- Precision / Recall / F1-Score
+- Confusion Matrix (visualized using heatmaps)
 
-## Acknowledgments
-- **ADFA-LD Dataset**: A labeled version of the ADFA-LD dataset is used for this project.
-- **Libraries**: Thanks to the developers of NumPy, Pandas, Gensim, Scikit-learn, and TensorFlow for their excellent tools.
+Each model is assessed on:
+- Multi-class classification capability
+- Sensitivity to rare attack classes
+- Generalization on unseen sequences
+
+📉 Results are summarized in the Jupyter Notebook:  
+➡️ `PGSL_project_LSTM_based_IDS.ipynb`
 
 ---
+
+## ⚙️ Dependencies
+
+Ensure the following packages are installed:
+
+```bash
+pip install numpy pandas scikit-learn gensim tensorflow matplotlib seaborn
