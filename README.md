@@ -102,7 +102,8 @@ Each model is assessed on:
 - Generalization on unseen sequences
 
 📉 Results are summarized in the Jupyter Notebook:  
-➡️ `PGSL_project_LSTM_based_IDS.ipynb`
+➡️ `Group_18_Project_Stage_3_balanced.ipynb`
+➡️ `Group_18_Project_Stage_3_imbalanced.ipynb`
 
 ---
 
